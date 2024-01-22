@@ -1,6 +1,5 @@
 package esercizio30Immobiliare;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Acquirente {

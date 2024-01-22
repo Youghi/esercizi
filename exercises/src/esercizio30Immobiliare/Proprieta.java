@@ -16,7 +16,7 @@ public abstract class Proprieta {
 	}
 	
 	public void getData() {
-		System.out.println("superficie: " + this.surface + "\n" + "prezzo: " + this.price);
+		System.out.println("superficie: " + this.surface + " Mq"+  "\n" + "prezzo: " + this.price + " $");
 	}
 	
 	
