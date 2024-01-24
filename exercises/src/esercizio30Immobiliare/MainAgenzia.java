@@ -31,6 +31,9 @@ public class MainAgenzia {
 			case 0:
 				break;
 			}
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
 		}
 		userIn.close();
 

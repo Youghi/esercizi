@@ -31,8 +31,9 @@ private Boolean garden;
 
 	@Override
 	public void getData() {
-		// TODO Auto-generated method stub
 		super.getData();
+		System.out.println("numero piani: " + this.floors + "\n" + "giardino:" + (this.garden == true  ? "si" : "no"));
+		
 	}
 	
 	

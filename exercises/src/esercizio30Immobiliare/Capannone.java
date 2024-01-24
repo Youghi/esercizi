@@ -23,8 +23,9 @@ private double height;
 
 	@Override
 	public void getData() {
-		// TODO Auto-generated method stub
 		super.getData();
+		System.out.println("altezza del capannone: " + this.height);
+		
 	}
 	
 	
