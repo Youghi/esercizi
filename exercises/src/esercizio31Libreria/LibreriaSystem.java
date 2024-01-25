@@ -17,11 +17,17 @@ public class LibreriaSystem {
 	}
 
 	public void addBook() {
-
+		Book book = new Book (this);
+		book.setData();
+		books.add(book);
 	}
 
 	public void viewBook() {
-
+		for (int i = 0; i < books.size(); i++) {
+			System.out.println("------ Libro n° " + i);
+			books.get(i).getData();
+			System.out.println("");
+		}
 	}
 
 	public void modifyBook() {
@@ -38,7 +44,7 @@ public class LibreriaSystem {
 
 	public String readString(String promt) {
 		System.out.println(promt);
-		return userIn.next();
+		return userIn.nextLine();
 	}
 
 	public int readInt(String promt) {
