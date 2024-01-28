@@ -38,6 +38,16 @@ public class LibreriaSystem {
 	}
 
 	public void modifyBook() {
+		if (books.size() != 0) {
+			for (int i = 0; i < books.size(); i++) {
+				System.out.println("------ Libro n° " + i);
+				books.get(i).getData();
+				System.out.println("");
+			}
+		} else {
+			System.out.println("Non ci sono libri nell'archivio");
+		}
+		int ind = readInt("Inserire numero libro da modificare:");
 
 	}
 

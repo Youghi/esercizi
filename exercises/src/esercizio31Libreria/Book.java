@@ -77,6 +77,42 @@ public class Book {
 		}
 	}
 
+	public void modifyData() {
+		Boolean check = true;
+		while (check) {
+			int ind = libreria.readInt(("Operazioni disponibili: " + "\n" + "1 - Modificare nome libro" + "\n"
+					+ "2 - Modificare anno dell'edizione:" + "\n" + "3 - Modificare genere" + "\n"
+					+ "4 - Modificare autore" + "\n" + "5 - Elimina un libro" + "\n" + "0 - uscire"));
+			switch (ind) {
+			case 1:
+
+				break;
+
+			case 2:
+
+				break;
+
+			case 3:
+
+				break;
+
+			case 4:
+
+				break;
+
+			case 5:
+
+				break;
+
+			case 0:
+				check = false;
+				break;
+			}
+			System.out.println("");
+			System.out.println("");
+		}
+	}
+
 	public Author getAuthor() {
 		return author;
 	}
