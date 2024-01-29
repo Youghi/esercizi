@@ -36,5 +36,28 @@ public class Author {
 		this.surname = surname;
 	}
 	
+	public void modifyAuthor () {
+		Boolean check = true;
+		while (check) {
+			int ind = libreria.readInt(("Operazioni disponibili: " + "\n" + "1 - Modificare nome dell'autore" + "\n"
+					+ "2 - Modificare cognome dell'autore:" + "\n" + "0 - uscire"));
+			switch (ind) {
+			case 1:
+				System.out.println("Nome da modificare: " + this.name);
+				setName(libreria.readLine("Inserire un nuovo nome: "));
+				break;
+
+			case 2:
+				System.out.println("Cognome da modificare: " + this.surname);
+				setSurname(libreria.readLine("Inserire un nuovo cognome: "));
+				break;
+
+			case 0:
+				check = false;
+				break;
+			}
+		}
+	}
+	
 	
 }

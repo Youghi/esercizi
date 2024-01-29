@@ -3,13 +3,15 @@ package esercizio31Libreria;
 import esercizio31Libreria.GenreEnum.genre;
 
 public class Book {
+	private int code;
 	private String name;
 	private int releaseYear;
 	private genre genere;
 	private LibreriaSystem libreria;
 	private Author author;
 
-	public Book(LibreriaSystem libreria) {
+	public Book(LibreriaSystem libreria, int code) {
+		this.code = code;
 		this.libreria = libreria;
 		this.author = new Author(libreria);
 	}
@@ -17,7 +19,7 @@ public class Book {
 	
 	
 	public void setData() {
-		this.name = libreria.readLine("Inserire nome libro:");
+		this.name = libreria.readLine("Inserire titolo del libro:");
 		setYear();
 		selectGenre();
 		System.out.println("Inserire");
@@ -26,8 +28,17 @@ public class Book {
 	}
 
 	public void getData() {
+		System.out.println("------ Libro n° " + this.code);
 		System.out.println("Titolo: " + name + "\n" + "Anno edizione: " + releaseYear + "\n" + "Genere: " + genere);
 		author.getData();
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
 	}
 
 	public String getName() {
@@ -54,7 +65,7 @@ public class Book {
 		setReleaseYear(libreria.readInt("Inserire anno dell'edizione:"));
 	}
 
-	public void setGenere(String gen) throws IllegalArgumentException {
+	public void setGenere(String gen) {
 		this.genere = genre.valueOf(gen);
 	}
 
@@ -66,7 +77,7 @@ public class Book {
 		Boolean check = false;
 		while (!check) {
 			try {
-				String gen = libreria.readString("");
+				String gen = libreria.readString("").toUpperCase();
 				setGenere(gen);
 				check = true;
 			} catch (IllegalArgumentException e) {
@@ -80,28 +91,27 @@ public class Book {
 	public void modifyData() {
 		Boolean check = true;
 		while (check) {
-			int ind = libreria.readInt(("Operazioni disponibili: " + "\n" + "1 - Modificare nome libro" + "\n"
+			int ind = libreria.readInt(("Operazioni disponibili: " + "\n" + "1 - Modificare titolo libro" + "\n"
 					+ "2 - Modificare anno dell'edizione:" + "\n" + "3 - Modificare genere" + "\n"
-					+ "4 - Modificare autore" + "\n" + "5 - Elimina un libro" + "\n" + "0 - uscire"));
+					+ "4 - Modificare autore" + "\n" + "0 - uscire"));
 			switch (ind) {
 			case 1:
-
+				System.out.println("Titolo da modificare: " + this.name);
+				setName(libreria.readLine("Inserire un nuovo titolo: "));
 				break;
 
 			case 2:
-
+				System.out.println("Anno dell'edizione da modificare: " + this.releaseYear);
+				setReleaseYear(libreria.readInt("Inserire nuovo anno dell'edizione:"));
 				break;
 
 			case 3:
-
+				System.out.println("Genere da modificare: " + this.genere);
+				selectGenre();
 				break;
 
 			case 4:
-
-				break;
-
-			case 5:
-
+				this.author.modifyAuthor();
 				break;
 
 			case 0:

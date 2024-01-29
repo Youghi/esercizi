@@ -1,5 +1,6 @@
 package esercizio31Libreria;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MainLibreria {
@@ -37,6 +38,12 @@ public class MainLibreria {
 				
 			case 0:
 				check = false;
+				FileManager file = new FileManager(libreria);
+				try {
+					file.writeFile();
+				} catch (IOException e) {
+					System.out.println("qualcosa non va con il file");
+				}
 				break;
 			}
 			System.out.println("");
