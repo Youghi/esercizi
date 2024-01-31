@@ -9,6 +9,15 @@ public class Book {
 	private genre genere;
 	private LibreriaSystem libreria;
 	private Author author;
+	
+	
+
+	public Book(LibreriaSystem libreria) {
+		this.libreria = libreria;
+		this.author = new Author(libreria);
+	}
+
+
 
 	public Book(LibreriaSystem libreria, int code) {
 		this.code = code;
