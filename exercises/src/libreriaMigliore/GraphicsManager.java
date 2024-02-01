@@ -1,5 +1,5 @@
 package libreriaMigliore;
 
-public class Graphics {
+public class GraphicsManager {
 
 }
