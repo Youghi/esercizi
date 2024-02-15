@@ -11,6 +11,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
 
 public class Window1 {
 
@@ -46,27 +48,24 @@ public class Window1 {
 	private void initialize() {
 		frmCiao = new JFrame();
 		frmCiao.setTitle("ciao");
-		frmCiao.setBounds(100, 100, 844, 534);
+		frmCiao.setBounds(500, 300, 650, 500);
+		
 		frmCiao.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		JLayeredPane layeredPane = new JLayeredPane();
-		frmCiao.getContentPane().add(layeredPane, BorderLayout.CENTER);
-		layeredPane.setLayout(new GridLayout(1, 0, 0, 0));
-
-		JPanel panel1 = new JPanel();
-		layeredPane.add(panel1);
-		panel1.setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("aaa");
-		lblNewLabel.setBounds(10, 11, 256, 23);
-		panel1.add(lblNewLabel);
-
+		
 		JPanel panel = new JPanel();
-		layeredPane.add(panel);
-
-		JPanel panel2 = new JPanel();
-		layeredPane.add(panel2);
-		layeredPane.setFocusTraversalPolicy(
-				new FocusTraversalOnArray(new Component[] { panel1, panel2, panel, lblNewLabel }));
+		frmCiao.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(85, 210, 89, 23);
+		panel.add(btnNewButton_1);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(250, 210, 89, 23);
+		panel.add(btnNewButton);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.setBounds(340, 151, 89, 23);
+		panel.add(btnNewButton_2);
 	}
 }
