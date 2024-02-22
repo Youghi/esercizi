@@ -16,7 +16,7 @@ public class MainRubrica {
 					+ "4 - Aggiungi un nuovo contatto" + "\n" + "5 - Elimina un contatto" + "\n" + "0 - uscire"));
 			switch (ind) {
 			case 1:
-				logic.addRecord();
+				logic.searchRecord();
 				break;
 
 			case 2:
@@ -24,10 +24,11 @@ public class MainRubrica {
 				break;
 
 			case 3:
-
+				logic.modifyRecord();
 				break;
 
 			case 4:
+				logic.addRecord();
 				break;
 
 			case 5:

@@ -9,8 +9,10 @@ import java.util.ArrayList;
 
 public class DBManager {
 	private Connection conn = null;
+	private LogicManager logic;
 
-	public DBManager() {
+	public DBManager(LogicManager logic) {
+		this.logic = logic;
 	}
 
 	public void init() {
@@ -24,9 +26,9 @@ public class DBManager {
 		}
 	}
 
-	public int addNew(Records record) {
+	
+	public void addNew(Records record) {
 		try {
-
 			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
 			PreparedStatement preSt = conn.prepareStatement("insert into record(name, surname, num) values(?,?,?)");
 			preSt.setString(1, record.getName());
@@ -37,9 +39,7 @@ public class DBManager {
 			conn.commit();
 			System.out.println("Contatto inserito nel database");
 		} catch (SQLException e) {
-
 			System.out.println("qualcosa è andato storto nella connessione!");
-
 		} finally {
 			if (conn != null) {
 				try {
@@ -49,11 +49,11 @@ public class DBManager {
 				}
 			}
 		}
-		return returnLastId();
+		
 	}
+	
 	
 	public void viewAllRecords() {
-		
 		try {
 			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
 			PreparedStatement preSt = conn.prepareStatement("select * from record");
@@ -69,7 +69,6 @@ public class DBManager {
 				System.out.println("Nome: " + name + "\n" + "Cognome: " + surName + "\n" + "Numero telefono: " + num);
 				System.out.println("");
 			}
-
 		} catch (SQLException e) {
 			System.out.println("qualcosa è andato storto nella connessione!");
 		} finally {
@@ -81,28 +80,82 @@ public class DBManager {
 				}
 			}
 		}
+	}
+	
+	public void updateRecord(Records record, int ind) {
 		
+		try {
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
+			PreparedStatement preSt;
+
+			switch (ind) {
+			case 1:
+				preSt = conn.prepareStatement("UPDATE record SET name = ? WHERE id = ?;");
+				preSt.setString(1, record.getName());
+				preSt.setInt(2, record.getId());
+				
+				
+				preSt.execute();
+				conn.commit();
+				break;
+
+			case 2:
+				preSt = conn.prepareStatement("UPDATE record SET surname = ? WHERE id = ?;");
+				preSt.setString(1, record.getSurname());
+				preSt.setInt(2, record.getId());
+				
+				
+				preSt.execute();
+				conn.commit();
+				break;
+
+			case 3:
+				preSt = conn.prepareStatement("UPDATE record SET num = ? WHERE id = ?;");
+				preSt.setInt(1, record.getNum());
+				preSt.setInt(2, record.getId());
+				
+				
+				preSt.execute();
+				conn.commit();
+				break;
+
+			default:
+				break;
+			}
+			
+			
+			
+			
+			
+			
+		} catch (SQLException e) {
+			System.out.println("qualcosa è andato storto nella connessione!");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 	}
 	
-	public ArrayList<Records> compileArray(ArrayList<Records> records) {
-		
+	
+	public void compileArray() {
 		try {
 			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
 			PreparedStatement preSt = conn.prepareStatement("select * from record");
 			ResultSet result = preSt.executeQuery();
 			while (result.next()) {
-				Records record = new Records();
-				int id = result.getInt(1);
-				String name = result.getString(2);
-				String surName = result.getString(3);
-				int num = result.getInt(4);
-				
-				System.out.println("------ Contatto n° " + id);
-				System.out.println("Nome: " + name + "\n" + "Cognome: " + surName + "\n" + "Numero telefono: " + num);
-				System.out.println("");
+				Records record = new Records(logic);
+				record.setId(result.getInt(1));
+				record.setName(result.getString(2));
+				record.setSurname(result.getString(3));
+				record.setNum(result.getInt(4));
+				logic.records.add(record);
 			}
-
 		} catch (SQLException e) {
 			System.out.println("qualcosa è andato storto nella connessione!");
 		} finally {
@@ -114,10 +167,9 @@ public class DBManager {
 				}
 			}
 		}
-		
-		return records;
 	}
 
+	
 	public int returnLastId() {
 		int id = 0;
 		try {
@@ -140,4 +192,8 @@ public class DBManager {
 		return id;
 	}
 
+	
+	
+	
+	
 }

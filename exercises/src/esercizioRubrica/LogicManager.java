@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import esercizio31Libreria.GenreEnum.genre;
 import esercizio31Libreria2.Book;
 
 
 public class LogicManager {
-	DBManager dbManager = new DBManager();
+	DBManager dbManager = new DBManager(this);
 	private Scanner userIn;
 	ArrayList<Records> records = new ArrayList<Records>();
 	
@@ -20,18 +21,86 @@ public class LogicManager {
 	public void addRecord() {
 			Records record = new Records(this);
 			record.setData();
-			record.setId(dbManager.addNew(record));
-			records.add(record);
-			
+			dbManager.addNew(record);
 	}
 	
 	public void modifyRecord() {
-		dbManager.viewAllRecords();
 		
+		dbManager.viewAllRecords();
+		int id = readInt("Inserire id del contatto da modificare");
+		dbManager.compileArray();
+		try {
+			records.get(searachPositionById(id)).modifyData();
+		} catch (IllegalArgumentException e) {
+			System.out.println("codice errato");
+		}
+		records.clear();
 	}
 	
 	
-	
+	public void searchRecord() {
+		dbManager.compileArray();
+		if (records.size() != 0) {
+			int ind = readInt(("Operazioni disponibili: " + "\n" + "1 - ricerca per id" + "\n" + "2 - ricerca per nome" + "\n" + "3 - ricerca per cognome"
+					+ "\n" + "4 - ricerca per numero telefonico"));
+			switch (ind) {
+			case 1:
+				int code = readInt("Inserire id del contatto da cercare:");
+				System.out.println("Risultato ricerca per codice " + code + ":");
+				try {
+					records.get(searachPositionById(code)).getData();
+				} catch (IllegalArgumentException e) {
+					System.out.println("Non ci sono contatti con questo id");
+				}
+				break;
+				
+			case 2:
+				String checkName = readLine("Inserire nome contatto da cercare:");
+				System.out.println("Risultato ricerca per nome " + checkName + ":");
+				Boolean check = true;
+				for (int i = 0; i < records.size(); i++) {
+					if (records.get(i).getName().equalsIgnoreCase(checkName)) {
+						records.get(i).getData();
+						System.out.println("");
+						check = false;
+					}
+				}
+				System.out.println(check == true ? "Non ci sono contatti con questo nome" : "");
+				break;
+				
+			case 3:
+				String checkSurname = readLine("Inserire cognome contatto da cercare:");
+				System.out.println("Risultato ricerca per cognome " + checkSurname + ":");
+				check = true;
+				for (int i = 0; i < records.size(); i++) {
+					if (records.get(i).getSurname().equalsIgnoreCase(checkSurname)) {
+						records.get(i).getData();
+						System.out.println("");
+						check = false;
+					}
+				}
+				System.out.println(check == true ? "Non ci sono contatti con questo cognome" : "");
+				break;
+				
+			case 4:
+				int checkNum = readInt("Inserire numero telefonico da cercare:");
+				System.out.println("Risultato ricerca per cognome " + checkNum + ":");
+				check = true;
+				for (int i = 0; i < records.size(); i++) {
+					if (records.get(i).getNum() == checkNum) {
+						records.get(i).getData();
+						System.out.println("");
+						check = false;
+					}
+				}
+				System.out.println(check == true ? "Non ci sono contatti con questo numero" : "");
+				break;
+			}
+			System.out.println("");
+			System.out.println("");
+		}
+		records.clear();
+	}
 	
 	
 	
