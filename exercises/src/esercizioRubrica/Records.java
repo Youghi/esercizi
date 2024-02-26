@@ -5,7 +5,7 @@ public class Records {
 	private int id;
 	private String name;
 	private String surname;
-	private int num;
+	private long num;
 
 	public Records(LogicManager logic) {
 		this.logic = logic;
@@ -19,14 +19,14 @@ public class Records {
 	public void setData() {
 		setName(logic.readString("Inserire nome del contatto:"));
 		setSurname(logic.readString("Inserire cognome del contatto:"));
-		setNum(logic.readInt("Inserire numero telefonico:"));
+		setNum(logic.readLong("Inserire numero telefonico:"));
 	}
 
 	public void modifyData() {
 		Boolean check = true;
 		while (check) {
 			int ind = logic.readInt(("Operazioni disponibili: " + "\n" + "1 - Modificare nome del contatto" + "\n"
-					+ "2 - Modificare cognome del contatto:" + "\n" + "3 - Modificare numero di telefono del contatto"
+					+ "2 - Modificare cognome del contatto" + "\n" + "3 - Modificare numero di telefono del contatto"
 					+ "\n" + "0 - uscire"));
 			switch (ind) {
 			case 1:
@@ -43,7 +43,7 @@ public class Records {
 
 			case 3:
 				System.out.println("Numero telefonicco da modificare: " + this.num);
-				setNum(logic.readInt("Inserire un nuovo numero:"));
+				setNum(logic.readLong("Inserire un nuovo numero:"));
 				logic.dbManager.updateRecord(this, ind);
 				break;
 
@@ -80,11 +80,11 @@ public class Records {
 		this.surname = surname;
 	}
 
-	public int getNum() {
+	public long getNum() {
 		return num;
 	}
 
-	public void setNum(int num) {
+	public void setNum(long num) {
 		this.num = num;
 	}
 

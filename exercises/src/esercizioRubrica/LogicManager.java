@@ -4,29 +4,31 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import esercizio31Libreria.GenreEnum.genre;
-import esercizio31Libreria2.Book;
-
-
 public class LogicManager {
 	DBManager dbManager = new DBManager(this);
 	private Scanner userIn;
 	ArrayList<Records> records = new ArrayList<Records>();
-	
+
 	public LogicManager(Scanner userIn) {
 		this.userIn = userIn;
 		dbManager.init();
 	}
-	
+
 	public void addRecord() {
-			Records record = new Records(this);
-			record.setData();
-			dbManager.addNew(record);
+		Records record = new Records(this);
+		record.setData();
+		dbManager.addNew(record);
 	}
-	
+
 	public void modifyRecord() {
-		
-		dbManager.viewAllRecords();
+		switch (readString("Visualizzare lista contatti? (Y/N)").toUpperCase()) {
+		case "Y":
+			dbManager.viewAllRecords();
+			break;
+		case "N":
+			break;
+		}
+
 		int id = readInt("Inserire id del contatto da modificare");
 		dbManager.compileArray();
 		try {
@@ -36,13 +38,12 @@ public class LogicManager {
 		}
 		records.clear();
 	}
-	
-	
+
 	public void searchRecord() {
 		dbManager.compileArray();
 		if (records.size() != 0) {
-			int ind = readInt(("Operazioni disponibili: " + "\n" + "1 - ricerca per id" + "\n" + "2 - ricerca per nome" + "\n" + "3 - ricerca per cognome"
-					+ "\n" + "4 - ricerca per numero telefonico"));
+			int ind = readInt(("Operazioni disponibili: " + "\n" + "1 - ricerca per id" + "\n" + "2 - ricerca per nome"
+					+ "\n" + "3 - ricerca per cognome" + "\n" + "4 - ricerca per numero telefonico"));
 			switch (ind) {
 			case 1:
 				int code = readInt("Inserire id del contatto da cercare:");
@@ -53,7 +54,7 @@ public class LogicManager {
 					System.out.println("Non ci sono contatti con questo id");
 				}
 				break;
-				
+
 			case 2:
 				String checkName = readLine("Inserire nome contatto da cercare:");
 				System.out.println("Risultato ricerca per nome " + checkName + ":");
@@ -67,7 +68,7 @@ public class LogicManager {
 				}
 				System.out.println(check == true ? "Non ci sono contatti con questo nome" : "");
 				break;
-				
+
 			case 3:
 				String checkSurname = readLine("Inserire cognome contatto da cercare:");
 				System.out.println("Risultato ricerca per cognome " + checkSurname + ":");
@@ -81,9 +82,9 @@ public class LogicManager {
 				}
 				System.out.println(check == true ? "Non ci sono contatti con questo cognome" : "");
 				break;
-				
+
 			case 4:
-				int checkNum = readInt("Inserire numero telefonico da cercare:");
+				long checkNum = readLong("Inserire numero telefonico da cercare:");
 				System.out.println("Risultato ricerca per cognome " + checkNum + ":");
 				check = true;
 				for (int i = 0; i < records.size(); i++) {
@@ -101,27 +102,20 @@ public class LogicManager {
 		}
 		records.clear();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//metodo per trovare la posizione del mio record dato un id
+
+	public void deleteRecord() {
+		switch (readString("Visualizzare lista contatti? (Y/N)").toUpperCase()) {
+		case "Y":
+			dbManager.viewAllRecords();
+			break;
+		case "N":
+			break;
+		}
+		int id = readInt("Inserire id del contatto da eliminare");
+		dbManager.deleteById(id);
+	}
+
+	// metodo per trovare la posizione del mio record dato un id
 	public int searachPositionById(int id) {
 		int ind = 0;
 		if (checkCode(id)) {
@@ -130,24 +124,23 @@ public class LogicManager {
 					ind = i;
 				}
 			}
-		}else {
+		} else {
 			throw new IllegalArgumentException("codice errato");
 		}
 		return ind;
 	}
-	
-	//metodo che stabilische che id dato esiste
+
+	// metodo che stabilische che id dato esiste
 	public Boolean checkCode(int id) {
 		Boolean check = false;
 		for (Records record : records) {
-			if (record.getId()==id) {
+			if (record.getId() == id) {
 				check = true;
 			}
 		}
 		return check;
 	}
-	
-	
+
 	public String readString(String promt) {
 		System.out.println(promt);
 		return userIn.next();
@@ -176,9 +169,21 @@ public class LogicManager {
 		return data;
 	}
 
-	
-	
-	
-	
-	
+	public long readLong(String promt) {
+		System.out.println(promt);
+		Boolean check = false;
+		long data = 0;
+		while (!check) {
+			try {
+				data = userIn.nextLong();
+				check = true;
+			} catch (InputMismatchException e) {
+				System.out.println("Input errato, riprovare:");
+				check = false;
+				userIn.next();
+			}
+		}
+		return data;
+	}
+
 }

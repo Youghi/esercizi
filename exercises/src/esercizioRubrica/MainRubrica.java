@@ -32,15 +32,13 @@ public class MainRubrica {
 				break;
 
 			case 5:
+				logic.deleteRecord();
 				break;
 
 			case 0:
 				check = false;
 			}
 		}
-		
-		
-		
 
 	}
 
