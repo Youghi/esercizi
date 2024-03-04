@@ -1,14 +1,13 @@
 package esercizio31Libreria2;
 
-import esercizio31Libreria.GenreEnum.genre;
 
 public class Book {
 	private int code;
 	private String name;
 	private int releaseYear;
-	private genre genere;
 	private LibreriaSystem libreria;
 	private Author author;
+	private Genre genre;
 	
 	
 
@@ -38,7 +37,7 @@ public class Book {
 
 	public void getData() {
 		System.out.println("------ Libro n° " + this.code);
-		System.out.println("Titolo: " + name + "\n" + "Anno edizione: " + releaseYear + "\n" + "Genere: " + genere);
+		System.out.println("Titolo: " + name + "\n" + "Anno edizione: " + releaseYear + "\n" + "Genere: " + genre);
 		author.getData();
 	}
 
@@ -66,21 +65,23 @@ public class Book {
 		this.releaseYear = releaseYear;
 	}
 
-	public genre getGenere() {
-		return genere;
+	
+	public Genre getGenre() {
+		return genre;
 	}
+
 
 	private void setYear() {
 		setReleaseYear(libreria.readInt("Inserire anno dell'edizione:"));
 	}
 
 	public void setGenere(String gen) {
-		this.genere = genre.valueOf(gen);
+		this.genre = Genre.valueOf(gen);
 	}
 
 	public void selectGenre() {
 		System.out.println("Scegliere genere:");
-		for (genre gen : genre.values()) {
+		for (Genre gen : Genre.values()) {
 			System.out.println(gen);
 		}
 		Boolean check = false;
@@ -96,6 +97,31 @@ public class Book {
 
 		}
 	}
+	
+	public int genreId() {
+		int id=0;
+		switch (this.genre) {
+		case ROMANZO:
+			id=1;
+			break;
+		case BIOGRAFIA:
+			id=2;
+			break;
+		case SAGGIO:
+			id=3;
+			break;
+		case RACCONTO:
+			id=4;
+			break;
+		case DIDATTICO:
+			id=5;
+			break;
+		default:
+			break;
+		}
+		return id;
+	}
+	
 
 	public void modifyData() {
 		Boolean check = true;
@@ -115,7 +141,7 @@ public class Book {
 				break;
 
 			case 3:
-				System.out.println("Genere da modificare: " + this.genere);
+				System.out.println("Genere da modificare: " + this.genre);
 				selectGenre();
 				break;
 

@@ -6,14 +6,12 @@ import java.util.Scanner;
 
 import esercizio31Libreria.GenreEnum.genre;
 
-//Aggiungi un nuovo libro" + "\n"
-//+ "2 - Modifica dati di un libro" + "\n" + "3 - Visualizza tutti i libri" + "\n"
-//+ "4 - Cerca un libro" + "\n" + "5 - Elimina un libro" + "\n" + "0 - uscire"
+
 
 public class LibreriaSystem {
 	Scanner userIn;
 	ArrayList<Book> books = new ArrayList<Book>();
-//	ArrayList<Author> authors = new ArrayList<Author>();
+	ArrayList<Author> authors = new ArrayList<Author>();
 
 	public LibreriaSystem(Scanner userIn) {
 		this.userIn = userIn;
@@ -132,11 +130,11 @@ public class LibreriaSystem {
 				System.out.println("Risultato ricerca per genere " + genere + ":");
 				check = true;
 				for (int i = 0; i < books.size(); i++) {
-					if (books.get(i).getGenere() == genere) {
-						books.get(i).getData();
-						System.out.println("");
-						check = false;
-					}
+//					if (books.get(i).getGenere() == genere) {
+//						books.get(i).getData();
+//						System.out.println("");
+//						check = false;
+//					}
 				}
 				System.out.println(check == true ? "Non ci sono libri di questo genere" : "");
 				break;
