@@ -110,6 +110,7 @@ public class MainAppWindow {
 		layeredPane.add(addNewBook);
 
 		addNewBook.setLayout(null);
+		tfTitolo.setBounds(5, 48, 89, 19);
 
 		addNewBook.add(tfTitolo);
 		lblAnnoEd.setBounds(5, 115, 79, 14);
@@ -119,6 +120,9 @@ public class MainAppWindow {
 
 		addNewBook.add(lblAutore);
 		lblNomeAutore.setBounds(10, 300, 37, 14);
+		lblTitolo.setBounds(5, 22, 89, 19);
+		addNewBook.add(lblTitolo);
+		addNewBook.add(choice);
 
 		addNewBook.add(lblNomeAutore);
 		addNewBook.add(tfNomeAutore);
@@ -127,7 +131,7 @@ public class MainAppWindow {
 		btnNewButton.setBounds(186, 427, 89, 23);
 
 		addNewBook.add(btnNewButton);
-		tfCognomeAutore.setBounds(135, 235, 86, 20);
+		tfCognomeAutore.setBounds(20, 176, 86, 20);
 		tfCognomeAutore.setColumns(10);
 		addNewBook.add(tfCognomeAutore);
 		
@@ -145,7 +149,7 @@ public class MainAppWindow {
 		panel.setBounds(0, 0, 384, 461);
 		layeredPane.add(panel, 1);
 
-		panel.add(choice);
+		
 	}
 
 	public void choiceFill() {
