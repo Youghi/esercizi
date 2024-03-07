@@ -5,10 +5,10 @@ public class Book {
 	private int code;
 	private String name;
 	private int releaseYear;
-	private LibreriaSystem libreria;
-	private Author author;
 	private Genre genre;
 	
+	private Author author;
+	private LibreriaSystem libreria;
 	
 
 	public Book(LibreriaSystem libreria) {
@@ -16,13 +16,10 @@ public class Book {
 		this.author = new Author(libreria);
 	}
 
+	public Book() {
+		this.author = new Author();
+	};
 
-
-	public Book(LibreriaSystem libreria, int code) {
-		this.code = code;
-		this.libreria = libreria;
-		this.author = new Author(libreria);
-	}
 
 	
 	
@@ -32,6 +29,7 @@ public class Book {
 		selectGenre();
 		System.out.println("Inserire");
 		author.setData();
+		libreria.dbm.addNewBook(this);
 
 	}
 

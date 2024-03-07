@@ -1,6 +1,7 @@
 package esercizio31Libreria2;
 
 public class Author {
+	private int authorId;
 	private String name;
 	private String surname;
 
@@ -9,15 +10,24 @@ public class Author {
 	public Author(LibreriaSystem libreria) {
 		this.libreria = libreria;
 	}
+	
+	public Author() {
+		
+	};
 
 	public void setData() {
 		System.out.println("---Autore");
 		this.name = libreria.readString("Nome:");
 		this.surname = libreria.readString("Cognome:");
+		if (libreria.dbm.checkForAuthor(this)) {
+			libreria.dbm.addNewAuthor(this);
+		}
+		this.authorId = libreria.dbm.getAuthorPk(this);
 	}
 
 	public void getData() {
 		System.out.println("Autore: " + this.name + " " + this.surname);
+		System.out.println("");
 	}
 
 	public String getName() {
@@ -36,6 +46,15 @@ public class Author {
 		this.surname = surname;
 	}
 	
+	
+	public int getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
+	}
+
 	public void modifyAuthor () {
 		Boolean check = true;
 		while (check) {

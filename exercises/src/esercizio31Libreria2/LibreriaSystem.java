@@ -6,61 +6,91 @@ import java.util.Scanner;
 
 import esercizio31Libreria.GenreEnum.genre;
 
-
-
 public class LibreriaSystem {
+	DBManager dbm = new DBManager(this);
 	Scanner userIn;
 	ArrayList<Book> books = new ArrayList<Book>();
 	ArrayList<Author> authors = new ArrayList<Author>();
+	
 
 	public LibreriaSystem(Scanner userIn) {
 		this.userIn = userIn;
+		dbm.init();
 	}
+	
 
 	public void addBook() {
-		if (books.size()==0) {
-			Book book = new Book (this, 1);
-			book.setData();
-			books.add(book);
-		}else {
-			Book book = new Book (this, (books.get(books.size()-1).getCode() + 1 ) );
-			book.setData();
-			books.add(book);
-		}
+		Book book = new Book(this);
+		book.setData();
 	}
 
 	public void viewBook() {
-		if (books.size() != 0) {
-			for (int i = 0; i < books.size(); i++) {
-				books.get(i).getData();
-				System.out.println("");
-			}
-		} else {
-			System.out.println("Non ci sono libri nell'archivio");
-		}
+		dbm.viewAllBooks();
 	}
 
-	public void modifyBook() {
-		if (books.size() != 0) {
-			for (int i = 0; i < books.size(); i++) {
-				books.get(i).getData();
-				System.out.println("");
+	
+	public void modifyData() {
+		Boolean check = true;
+		int ind;
+		while (check) {
+			ind = readInt(("Operazioni disponibili: " + "\n" + "1 - Modifica i dati di un libro" + "\n"
+					+ "2 - Modifica i dati di un autore" + "\n" + "0 - uscire"));
+			switch (ind) {
+			case 1:
+				modifyBook();
+				break;
+
+			case 2:
+				break;
+
+			case 0:
+				check = false;
+				break;
 			}
-			int ind = readInt("Inserire codice libro da modificare:");
-			try {
-				books.get(searachPositionByCode(ind)).modifyData();
-			} catch (IllegalArgumentException e) {
-				System.out.println("codice errato");
-			}
-		} else {
-			System.out.println("Non ci sono libri nell'archivio");
+			System.out.println("");
+			System.out.println("");
 		}
+	}
+	
+	public void modifyBook() {
+		switch (readString("Visualizzare lista libri? (Y/N)").toUpperCase()) {
+		case "Y":
+			dbm.viewAllBooks();
+			break;
+		case "N":
+			break;
+		}
+		
+		int id = readInt("Inserire id del contatto da modificare");
+		dbm.compileBookArray();
+		try {
+			books.get(searachPositionByCode(id)).modifyData();
+		} catch (IllegalArgumentException e) {
+			System.out.println("codice errato");
+		}
+		books.clear();
+		
+		
+	}
+	
+	public void modifyAuthor() {
+		switch (readString("Visualizzare lista autori? (Y/N)").toUpperCase()) {
+		case "Y":
+			dbm.viewAllBooks();
+			break;
+		case "N":
+			break;
+		}
+		
+		
+		
+		
 	}
 
 	public void searchBook() {
 		if (books.size() != 0) {
-			int ind = readInt(("Operazioni disponibili: " + "\n" + "1 - ricerca per codice" + "\n" + "2 - ricerca per nome" + "\n" + "3 - ricerca per autore"
-					+ "\n" + "4 - ricerca per genere"));
+			int ind = readInt(("Operazioni disponibili: " + "\n" + "1 - ricerca per codice" + "\n"
+					+ "2 - ricerca per nome" + "\n" + "3 - ricerca per autore" + "\n" + "4 - ricerca per genere"));
 			switch (ind) {
 			case 1:
 				int code = readInt("Inserire codice libro da cercare:");
@@ -71,7 +101,7 @@ public class LibreriaSystem {
 					System.out.println("Non ci sono libri con questo codice");
 				}
 				break;
-				
+
 			case 2:
 				String checkName = readLine("Inserire nome libro da cercare:");
 				System.out.println("Risultato ricerca per nome " + checkName + ":");
@@ -85,7 +115,7 @@ public class LibreriaSystem {
 				}
 				System.out.println(check == true ? "Non ci sono libri con questo nome" : "");
 				break;
-				
+
 			case 3:
 				String AuthorName = readString("Inserire nome autore da cercare:");
 				String AuthorSurame = readString("Cognome:");
@@ -101,7 +131,7 @@ public class LibreriaSystem {
 				}
 				System.out.println(check == true ? "Non ci sono libri di questo autore" : "");
 				break;
-				
+
 			case 4:
 				System.out.println("Scegliere genere libro da cercare:");
 				code = 0;
@@ -163,13 +193,13 @@ public class LibreriaSystem {
 
 	public String readString(String promt) {
 		System.out.println(promt);
-		return userIn.next();
+		return userIn.next().toUpperCase();
 	}
 
 	public String readLine(String promt) {
 		userIn.nextLine();
 		System.out.println(promt);
-		return userIn.nextLine();
+		return userIn.nextLine().toUpperCase();
 	}
 
 	public int readInt(String promt) {
@@ -189,7 +219,6 @@ public class LibreriaSystem {
 		return data;
 	}
 
-	
 	public int searachPositionByCode(int code) {
 		int ind = 0;
 		if (checkCode(code)) {
@@ -198,16 +227,16 @@ public class LibreriaSystem {
 					ind = i;
 				}
 			}
-		}else {
+		} else {
 			throw new IllegalArgumentException("codice errato");
 		}
 		return ind;
 	}
-	
+
 	public Boolean checkCode(int code) {
 		Boolean check = false;
 		for (Book book : books) {
-			if (book.getCode()==code) {
+			if (book.getCode() == code) {
 				check = true;
 			}
 		}

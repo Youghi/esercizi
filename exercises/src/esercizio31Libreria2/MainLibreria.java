@@ -6,9 +6,8 @@ public class MainLibreria {
 
 	public static void main(String[] args) {
 		Scanner userIn = new Scanner(System.in);
-
+		
 		LibreriaSystem libreria = new LibreriaSystem(userIn);
-
 		Boolean check = true;
 		int ind;
 		while (check) {
@@ -21,7 +20,7 @@ public class MainLibreria {
 				break;
 
 			case 2:
-				libreria.modifyBook();
+				libreria.modifyData();
 				break;
 
 			case 3:
