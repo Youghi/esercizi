@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class DBManager {
 	private Connection conn = null;
 	private LibreriaSystem libreria;
@@ -159,21 +158,24 @@ public class DBManager {
 //
 //	}
 //
-	//DA RIFARE CON LA QUERY CHE RICEVE PK_BOOK_ID!!!! NON SERVE COMPILARE TUTTA LA ARRAY!!!
-	public void compileBookArray() {
+	// DA RIFARE CON LA QUERY CHE RICEVE PK_BOOK_ID!!!! NON SERVE COMPILARE TUTTA LA
+	// ARRAY!!!
+	public Book compileBookFromInd(int ind) {
+		Book book = new Book(libreria);
 		try {
 			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
 			PreparedStatement preSt = conn.prepareStatement(
-					"select book.pk_book_id, book.name, book.release_year, genre.type, author.pk_author_id, author.name, author.surname from book join author on book.fk_author_id=author.pk_author_id join genre on book.fk_genre_id=pk_genre_id order by book.pk_book_id");
+					"select book.pk_book_id, book.name, book.release_year, genre.type, author.pk_author_id, author.name, author.surname from book join author on book.fk_author_id=author.pk_author_id join genre on book.fk_genre_id=pk_genre_id where book.pk_book_id=?");
+			preSt.setInt(1, ind);
 			ResultSet result = preSt.executeQuery();
 			while (result.next()) {
-				Book book = new Book(libreria);
+
 				book.setCode(result.getInt(1));
 				book.setName(result.getString(2));
 				book.setReleaseYear(result.getInt(3));
 				book.setGenere(result.getString(4));
 				book.getAuthor().setAuthorId(result.getInt(5));
-				
+
 				libreria.books.add(book);
 			}
 		} catch (SQLException e) {
@@ -187,6 +189,7 @@ public class DBManager {
 				}
 			}
 		}
+		return book;
 	}
 //
 //	public void deleteById(int id) {
@@ -290,6 +293,34 @@ public class DBManager {
 			}
 		}
 		return pk;
+	}
+
+	// if one of pk from book list == given code metod returns true else returns
+	// false
+	public Boolean checkBookPk(int code) {
+		Boolean check = false;
+		try {
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_libreria", "SA", "");
+			PreparedStatement preSt = conn.prepareStatement("select pk_book_id from book");
+			ResultSet result = preSt.executeQuery();
+			while (result.next()) {
+				int pk = result.getInt(1);
+				if (pk == code) {
+					check = true;
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("qualcosa è andato storto nella connessione!/getAuthorPk");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return check;
 	}
 
 }

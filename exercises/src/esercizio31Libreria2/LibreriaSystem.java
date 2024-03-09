@@ -61,10 +61,9 @@ public class LibreriaSystem {
 			break;
 		}
 		
-		int id = readInt("Inserire id del contatto da modificare");
-		dbm.compileBookArray();
+		int id = readInt("Inserire codice libero da modificare");
 		try {
-			books.get(searachPositionByCode(id)).modifyData();
+			dbm.compileBookFromInd(validateBookCode(id)).modifyData();
 		} catch (IllegalArgumentException e) {
 			System.out.println("codice errato");
 		}
@@ -96,7 +95,7 @@ public class LibreriaSystem {
 				int code = readInt("Inserire codice libro da cercare:");
 				System.out.println("Risultato ricerca per codice " + code + ":");
 				try {
-					books.get(searachPositionByCode(code)).getData();
+
 				} catch (IllegalArgumentException e) {
 					System.out.println("Non ci sono libri con questo codice");
 				}
@@ -181,7 +180,7 @@ public class LibreriaSystem {
 				System.out.println("");
 			}
 			try {
-				books.remove(searachPositionByCode(readInt("Inserire codice libro da rimuovere:")));
+
 				System.out.println("rimozione completata!");
 			} catch (IllegalArgumentException e) {
 				System.out.println("codice errato");
@@ -219,28 +218,15 @@ public class LibreriaSystem {
 		return data;
 	}
 
-	public int searachPositionByCode(int code) {
+	public int validateBookCode(int code) {
 		int ind = 0;
-		if (checkCode(code)) {
-			for (int i = 0; i < books.size(); i++) {
-				if (books.get(i).getCode() == code) {
-					ind = i;
-				}
-			}
+		if (dbm.checkBookPk(code)) {
+			ind = code;
 		} else {
 			throw new IllegalArgumentException("codice errato");
 		}
 		return ind;
 	}
 
-	public Boolean checkCode(int code) {
-		Boolean check = false;
-		for (Book book : books) {
-			if (book.getCode() == code) {
-				check = true;
-			}
-		}
-		return check;
-	}
 
 }
