@@ -12,7 +12,6 @@ public class Author {
 	}
 	
 	public Author() {
-		
 	};
 
 	public void setData() {
@@ -26,7 +25,7 @@ public class Author {
 	}
 
 	public void getData() {
-		System.out.println("Autore: " + this.name + " " + this.surname);
+		System.out.println("Autore N° " + this.authorId + ": " + this.name + " " + this.surname);
 		System.out.println("");
 	}
 
@@ -55,7 +54,7 @@ public class Author {
 		this.authorId = authorId;
 	}
 
-	public void modifyAuthor () {
+	public void modifyData () {
 		Boolean check = true;
 		while (check) {
 			int ind = libreria.readInt(("Operazioni disponibili: " + "\n" + "1 - Modificare nome dell'autore" + "\n"
@@ -64,11 +63,13 @@ public class Author {
 			case 1:
 				System.out.println("Nome da modificare: " + this.name);
 				setName(libreria.readLine("Inserire un nuovo nome: "));
+				libreria.dbm.updateAuthorData(this, ind);
 				break;
 
 			case 2:
 				System.out.println("Cognome da modificare: " + this.surname);
 				setSurname(libreria.readLine("Inserire un nuovo cognome: "));
+				libreria.dbm.updateAuthorData(this, ind);
 				break;
 
 			case 0:

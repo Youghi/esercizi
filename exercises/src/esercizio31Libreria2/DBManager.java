@@ -106,78 +106,73 @@ public class DBManager {
 			}
 		}
 	}
-
-//	public void updateRecord(Records record, int ind) {
-//
-//		try {
-//			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
-//			PreparedStatement preSt;
-//
-//			switch (ind) {
-//			case 1:
-//				preSt = conn.prepareStatement("UPDATE record SET name = ? WHERE id = ?;");
-//				preSt.setString(1, record.getName());
-//				preSt.setInt(2, record.getId());
-//
-//				preSt.execute();
-//				conn.commit();
-//				break;
-//
-//			case 2:
-//				preSt = conn.prepareStatement("UPDATE record SET surname = ? WHERE id = ?;");
-//				preSt.setString(1, record.getSurname());
-//				preSt.setInt(2, record.getId());
-//
-//				preSt.execute();
-//				conn.commit();
-//				break;
-//
-//			case 3:
-//				preSt = conn.prepareStatement("UPDATE record SET num = ? WHERE id = ?;");
-//				preSt.setLong(1, record.getNum());
-//				preSt.setInt(2, record.getId());
-//
-//				preSt.execute();
-//				conn.commit();
-//				break;
-//
-//			default:
-//				break;
-//			}
-//		} catch (SQLException e) {
-//			System.out.println("qualcosa è andato storto nella connessione!");
-//		} finally {
-//			if (conn != null) {
-//				try {
-//					conn.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//
-//	}
-//
-	// DA RIFARE CON LA QUERY CHE RICEVE PK_BOOK_ID!!!! NON SERVE COMPILARE TUTTA LA
-	// ARRAY!!!
-	public Book compileBookFromInd(int ind) {
-		Book book = new Book(libreria);
+	
+	public void viewAllAuthors() {
 		try {
-			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_libreria", "SA", "");
 			PreparedStatement preSt = conn.prepareStatement(
-					"select book.pk_book_id, book.name, book.release_year, genre.type, author.pk_author_id, author.name, author.surname from book join author on book.fk_author_id=author.pk_author_id join genre on book.fk_genre_id=pk_genre_id where book.pk_book_id=?");
-			preSt.setInt(1, ind);
+					"select * from author");
 			ResultSet result = preSt.executeQuery();
+			Author author = new Author();
+
 			while (result.next()) {
+				author.setAuthorId(result.getInt(1));
+				author.setName(result.getString(2));
+				author.setSurname(result.getString(3));
 
-				book.setCode(result.getInt(1));
-				book.setName(result.getString(2));
-				book.setReleaseYear(result.getInt(3));
-				book.setGenere(result.getString(4));
-				book.getAuthor().setAuthorId(result.getInt(5));
-
-				libreria.books.add(book);
+				author.getData();
 			}
+		} catch (SQLException e) {
+			System.out.println("qualcosa è andato storto nella connessione! /viewAllAuthors");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void updateBookData(Book book, int ind) {
+
+		try {
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_libreria", "SA", "");
+			PreparedStatement preSt;
+
+			switch (ind) {
+			case 1:
+				preSt = conn.prepareStatement("UPDATE book SET NAME=? WHERE PK_BOOK_ID = ?;");
+				preSt.setString(1, book.getName());
+				preSt.setInt(2, book.getCode());
+
+				preSt.execute();
+				conn.commit();
+				break;
+
+			case 2:
+				preSt = conn.prepareStatement("UPDATE book SET release_year=? WHERE PK_BOOK_ID = ?;");
+				preSt.setInt(1, book.getReleaseYear());
+				preSt.setInt(2, book.getCode());
+
+				preSt.execute();
+				conn.commit();
+				break;
+
+			case 3:
+				preSt = conn.prepareStatement("UPDATE book SET fk_genre_id=? WHERE PK_BOOK_ID = ?;");
+				preSt.setInt(1, book.genreId());
+				preSt.setInt(2, book.getCode());
+
+				preSt.execute();
+				conn.commit();
+				break;
+
+			default:
+				break;
+			}
+			System.out.println("I dati sono stati aggiornati nel database.");
 		} catch (SQLException e) {
 			System.out.println("qualcosa è andato storto nella connessione!");
 		} finally {
@@ -189,52 +184,130 @@ public class DBManager {
 				}
 			}
 		}
+
+	}
+
+	public void updateAuthorData(Author author, int ind) {
+
+		try {
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_libreria", "SA", "");
+			PreparedStatement preSt;
+
+			switch (ind) {
+			case 1:
+				preSt = conn.prepareStatement("UPDATE author SET NAME=? WHERE PK_AUTHOR_ID = ?;");
+				preSt.setString(1, author.getName());
+				preSt.setInt(2, author.getAuthorId());
+
+				preSt.execute();
+				conn.commit();
+				break;
+
+			case 2:
+				preSt = conn.prepareStatement("UPDATE author SET SURNAME=? WHERE PK_AUTHOR_ID = ?;");
+				preSt.setString(1, author.getSurname());
+				preSt.setInt(2, author.getAuthorId());
+
+				preSt.execute();
+				conn.commit();
+				break;
+
+			default:
+				break;
+			}
+			System.out.println("I dati sono stati aggiornati nel database.");
+		} catch (SQLException e) {
+			System.out.println("qualcosa è andato storto nella connessione! /updateAuthorData");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	public Book compileBookFromInd(int ind) {
+		Book book = new Book(libreria);
+		try {
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_libreria", "SA", "");
+			PreparedStatement preSt = conn.prepareStatement("select book.pk_book_id, book.name, book.release_year, genre.type, author.pk_author_id, author.name, author.surname from book join author on book.fk_author_id=author.pk_author_id join genre on book.fk_genre_id=pk_genre_id where book.pk_book_id=?");
+			preSt.setInt(1, ind);
+			ResultSet result = preSt.executeQuery();
+			while (result.next()) {
+				book.setCode(result.getInt(1));
+				book.setName(result.getString(2));
+				book.setReleaseYear(result.getInt(3));
+				book.setGenere(result.getString(4));
+				book.getAuthor().setAuthorId(result.getInt(5));
+				book.getAuthor().setName(result.getString(6));
+				book.getAuthor().setSurname(result.getString(7));
+			}
+		} catch (SQLException e) {
+			System.out.println("qualcosa è andato storto nella connessione! /compileBookFromInd");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return book;
 	}
+	
+	public Author compileAuthorFromInd(int ind) {
+		Author author = new Author(libreria);
+		try {
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_libreria", "SA", "");
+			PreparedStatement preSt = conn.prepareStatement("select * from author where pk_author_id=?");
+			preSt.setInt(1, ind);
+			ResultSet result = preSt.executeQuery();
+			while (result.next()) {
+				author.setAuthorId(result.getInt(1));
+				author.setName(result.getString(2));
+				author.setSurname(result.getString(3));
+			}
+		} catch (SQLException e) {
+			System.out.println("qualcosa è andato storto nella connessione! /compileBookFromInd");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return author;
+	}
 //
-//	public void deleteById(int id) {
-//		try {
-//			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
-//			PreparedStatement preSt = conn.prepareStatement("DELETE FROM record WHERE id=?");
-//			preSt.setInt(1, id);
-//			preSt.execute();
-//			conn.commit();
-//			System.out.println("Contatto eliminato dal database");
-//		} catch (SQLException e) {
-//			System.out.println("qualcosa è andato storto nella connessione!");
-//		} finally {
-//			if (conn != null) {
-//				try {
-//					conn.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//
-//	}
-//
-//	public int returnLastId() {
-//		int id = 0;
-//		try {
-//			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_rubrica", "SA", "");
-//			PreparedStatement preSt = conn.prepareStatement("CALL IDENTITY()");
-//			ResultSet result = preSt.executeQuery();
-//			id = result.getInt(1);
-//
-//		} catch (SQLException e) {
-//			System.out.println("qualcosa è andato storto nella connessione!");
-//		} finally {
-//			if (conn != null) {
-//				try {
-//					conn.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		return id;
-//	}
+	public void deleteById(int id) {
+		try {
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_libreria", "SA", "");
+			PreparedStatement preSt = conn.prepareStatement("DELETE FROM book WHERE pk_book_id=?");
+			preSt.setInt(1, id);
+			preSt.execute();
+			conn.commit();
+			System.out.println("Libro eliminato dal database");
+		} catch (SQLException e) {
+			System.out.println("qualcosa è andato storto nella connessione! /deleteById");
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
 
 	// controllo se l'autore è presente in database dati nome e cognome
 	public Boolean checkForAuthor(Author author) {
@@ -295,22 +368,43 @@ public class DBManager {
 		return pk;
 	}
 
-	// if one of pk from book list == given code metod returns true else returns
+	// if one of pk from book list == given code, metod returns true else returns
 	// false
-	public Boolean checkBookPk(int code) {
+	public Boolean checkPk(int code, int ind) {
 		Boolean check = false;
 		try {
 			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_libreria", "SA", "");
-			PreparedStatement preSt = conn.prepareStatement("select pk_book_id from book");
-			ResultSet result = preSt.executeQuery();
-			while (result.next()) {
-				int pk = result.getInt(1);
-				if (pk == code) {
-					check = true;
+			PreparedStatement preSt;
+			ResultSet result;
+			switch (ind) {
+			case 1:
+				preSt = conn.prepareStatement("select pk_book_id from book");
+				result = preSt.executeQuery();
+				while (result.next()) {
+					int pk = result.getInt(1);
+					if (pk == code) {
+						check = true;
+					}
 				}
+				break;
+
+			case 2:
+				preSt = conn.prepareStatement("select pk_author_id from author");
+				result = preSt.executeQuery();
+				while (result.next()) {
+					int pk = result.getInt(1);
+					if (pk == code) {
+						check = true;
+					}
+				}
+				break;
+
+			default:
+				break;
 			}
+
 		} catch (SQLException e) {
-			System.out.println("qualcosa è andato storto nella connessione!/getAuthorPk");
+			System.out.println("qualcosa è andato storto nella connessione!/checkPk");
 		} finally {
 			if (conn != null) {
 				try {
@@ -322,5 +416,7 @@ public class DBManager {
 		}
 		return check;
 	}
+	
+	
 
 }

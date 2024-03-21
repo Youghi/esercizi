@@ -12,7 +12,7 @@ public class MainLibreria {
 		int ind;
 		while (check) {
 			ind = libreria.readInt(("Operazioni disponibili: " + "\n" + "1 - Aggiungi un nuovo libro" + "\n"
-					+ "2 - Modifica dati di un libro" + "\n" + "3 - Visualizza tutti i libri" + "\n"
+					+ "2 - Modifica dati" + "\n" + "3 - Visualizza tutti i libri" + "\n"
 					+ "4 - Cerca un libro" + "\n" + "5 - Elimina un libro" + "\n" + "0 - uscire"));
 			switch (ind) {
 			case 1:
@@ -28,7 +28,7 @@ public class MainLibreria {
 				break;
 
 			case 4:
-				libreria.searchBook();
+//				libreria.searchBook();
 				break;
 
 			case 5:

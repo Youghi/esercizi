@@ -131,20 +131,23 @@ public class Book {
 			case 1:
 				System.out.println("Titolo da modificare: " + this.name);
 				setName(libreria.readLine("Inserire un nuovo titolo: "));
+				libreria.dbm.updateBookData(this, ind);
 				break;
 
 			case 2:
 				System.out.println("Anno dell'edizione da modificare: " + this.releaseYear);
 				setReleaseYear(libreria.readInt("Inserire nuovo anno dell'edizione:"));
+				libreria.dbm.updateBookData(this, ind);
 				break;
 
 			case 3:
 				System.out.println("Genere da modificare: " + this.genre);
 				selectGenre();
+				libreria.dbm.updateBookData(this, ind);
 				break;
 
 			case 4:
-				this.author.modifyAuthor();
+				this.author.modifyData();
 				break;
 
 			case 0:
