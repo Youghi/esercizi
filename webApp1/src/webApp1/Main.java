@@ -29,7 +29,10 @@ public class Main {
 
 		appServer.httpServer().addListenAddr(8088, false);
 
-// lamda function per questioni di tempistica
+// lamda function per questioni di tempistica, 
+//		ApplicationData -> ogetto contenente dati della buisness logic , ad esempio 
+//		SessionData -> dati salvati durante la sessione del webApp grazie anche ai coockie, 
+//		RequestData -> oggetto di richiesta da parte del webApp e ne contiene i dati
 		Application app1 = appServer.server().addApplication("app1", () -> new ApplicationData());
 
 		UriMapper uriMapper = new UriMapper();
@@ -50,40 +53,39 @@ public class Main {
 
 		Path p = Path.of("C:\\Users\\Windows\\Desktop\\JAVA\\webApp1\\html\\home.html");
 		String html = null;
-		
+
 		try {
-			html=Files.readString(p);
-			
+			html = Files.readString(p);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		Parser htmlParser = new Parser();
-		
+
 		Fragment frag = htmlParser.parse(html);
 		Query query = new Query(frag);
 		query.filterId("targetMe").setText("questo testo è stato generato dal pharser");
-		
+
 		req.write(frag.writeToString());
 //		req.write("\n" + "<p>eccoci!! <b>BENVENUTO NELLA HOME</b></p>");
 		return null;
 	}
-	
+
 	public static Void trieste(Request req) {
 		// req fa vedere l'uri che sto chiamando dal browser
 		System.out.println("uri=" + req.getUri());
 
 		Path p = Path.of("C:\\Users\\Windows\\Desktop\\HTML\\esercizi\\public\\esercizio_trieste.html");
 		String html = null;
-		
+
 		try {
-			html=Files.readString(p);
-			
+			html = Files.readString(p);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		req.write(html);
 //		req.write("\n" + "<p>eccoci!! <b>BENVENUTO NELLA HOME</b></p>");
 		return null;
@@ -92,16 +94,13 @@ public class Main {
 	public static Void pagina(Request req) {
 		// req fa vedere l'uri che sto chiamando dal browser
 		System.out.println("uri=" + req.getUri());
-		Elem div = Create.div().add(Create.p()
-				.setText("ciao questo è un testo generato ")
-				.add(Create.span()
-						.setText("questo è uno span generato ")
-						.addStyle("font-weight:bold;")));
+		Elem div = Create.div().add(Create.p().setText("ciao questo è un testo generato ")
+				.add(Create.span().setText("questo è uno span generato ").addStyle("font-weight:bold;")));
 
 		for (int i = 0; i < 5; i++) {
 			div.add(Create.p().setText("riga n: " + i));
 		}
-		
+
 		req.write(div.writeToString());
 		return null;
 	}
