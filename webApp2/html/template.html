@@ -2,36 +2,50 @@
 <html>
 
 <head>
+	<link rel="stylesheet" href="/static/MainStyle.css">
 	<meta charset="UTF-8">
-	<title>gestionale corsi</title>
+	<title>gestionale corso</title>
 </head>
 
 <body>
-	<div>
-		<p>HEADER </p>
-		<p>
-			<a href="/">HOME</a> |
-			<a href="/insegnanti.html">Insegnanti</a> |
-			<a href="/corsi.html">Corsi</a> |
-			<a href="/iscrizioni.html">Iscrizioni</a> |
-			<a href="/static/java.png">Java</a>
-		</p>
-
+	<div class="header">
+		<div class="menu">
+			<div class="drop_menu">
+				<div class="dropbt">
+					<a class="small_text">Menu</a>
+				</div>
+				<div class="drop_content">
+					<a class="small_text" href="/">HOME</a>
+					<a class="small_text" href="/insegnanti.html">Insegnanti</a>
+					<a class="small_text" href="/corsi.html">Corsi</a>
+					<a class="small_text" href="/iscrizioni.html">Iscrizioni</a>
+				</div>
+			</div>
+			<div class="drop_menu" href="/corsi.html">
+				<div class="dropbt">
+					<a class="small_text" href="/corsi.html">Altro</a>
+				</div>
+			</div>
+		</div>
 	</div>
-<div id="test"></div>
 
-	<h1>GESTIONALE CORSI DI LINGUE</h1>
+	<div class="background">
+		<div id="test"></div>
 
-	<div id="contents">
+		<h1>GESTIONALE CORSI DI LINGUE</h1>
 
-		content
+		<div id="contents">
 
+			content
+
+		</div>
 	</div>
-	
-	
 
-	<div>
-		FOOTER
+
+	<div class="footer">
+		<div class="small_text">
+			<p>altre info qui</p>
+		</div>
 	</div>
 
 </body>

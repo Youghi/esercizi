@@ -11,7 +11,7 @@ import it.brujo.jappsrv.urimapper.UriEntry.Uri;
 
 public class Main {
 
-	public final static String DIR_FILES_BASE = "C:\\Users\\Windows\\Desktop\\JAVA\\webApp2";
+	public final static String DIR_FILES_BASE = "C:\\Users\\Windows\\git\\repository3\\webApp2";
 	public final static String DIR_FILES_HTML = DIR_FILES_BASE + "\\html";
 	public final static String DIR_FILES_STATIC = DIR_FILES_BASE + "\\static";
 	public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class Main {
 
 		appServer.httpServer().addListenAddr(8088, false);
 
-		Application app2 = appServer.server().addApplication("app2", () -> new ApplicationData());
+		Application app2 = appServer.server().addApplication("app2", () -> new App2Data());
 
 		
 		UriMapper uriMapper = new UriMapper();
@@ -39,6 +39,15 @@ public class Main {
 		
 		appServer.start();
 		
+		
+			try {
+				Class.forName("org.hsqldb.jdbc.JDBCDriver");
+				System.out.println("Connessione al Data Base stabilita");
+			} catch (Exception e) {
+				System.err.println("ERROR: failed to load HSQLDB JDBC driver.");
+				e.printStackTrace();
+				return;
+			}
 		
 		
 	}

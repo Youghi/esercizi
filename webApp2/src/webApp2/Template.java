@@ -13,6 +13,8 @@ import it.brujo.jappsrv.Service;
 
 public abstract class Template implements Service{
 
+	
+	
 	@Override
 	public Void apply(Request request) {
 //		request.write("QUESTO E L'HEADER Nuovo\n");
@@ -41,16 +43,14 @@ public abstract class Template implements Service{
 		String body = body(request);
 //		html = html.replace("content", body);
 		contentsDiv.setHtml(body);
-		
 		htmlQuery.filterId("test").elem().setHtml("<img src=\"/static/java.png\">");
-		
 		request.write(htmlFrag.writeToString());
-		
-		
 		return null;
 	}
 
 	public abstract String body(Request request);
+	
+	
 	
 	public String loadHtml(String fileName) {
 		Path p = Path.of(Main.DIR_FILES_HTML).resolve(fileName);
