@@ -1,15 +1,19 @@
 package webApp2;
 
-public class Docente {
+import java.util.ArrayList;
 
+public class Docente extends DBManager {
+	ArrayList<ElaboraStatement> operazioniSt = new ArrayList<ElaboraStatement>();
+	
 	private int id;
 	private String fName;
 	private String lName;
 	public Docente(int id, String fName, String lName) {
 		super();
-		this.id = id;
 		this.fName = fName;
 		this.lName = lName;
+		addObj(null);
+		this.id = queryToInt("CALL IDENTITY()");
 	}
 	public int getId() {
 		return id;
@@ -31,7 +35,12 @@ public class Docente {
 	}
 	
 	
-	
+public void compilaStatements() {
+	operazioniSt.add(prepSt) -> {
+				prepSt.setString(1, fName);
+				prepSt.setString(2, lName);
+	};
+}	
 	
 	
 }

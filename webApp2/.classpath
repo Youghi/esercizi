@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="lib/brujo-jlog.jar"/>
 	<classpathentry kind="lib" path="lib/brujo-json.jar"/>
 	<classpathentry kind="lib" path="lib/brujo-lib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Windows/Desktop/database/hsqldb-2.7.2/hsqldb/lib/hsqldb.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

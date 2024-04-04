@@ -12,24 +12,19 @@ public class ElencoDocenti {
 	ArrayList<Docente> listaDocenti = new ArrayList<Docente>();
 
 	public ElencoDocenti() {
-		listaDocenti.add(new Docente(1, "Andrea", "Sadomaco"));
-		listaDocenti.add(new Docente(2, "Pippo", "Rossi"));
-		listaDocenti.add(new Docente(3, "Laura", "Gialli"));
-		listaDocenti.add(new Docente(4, "Ciccio", "Caio"));
-		
+
 		Connection conn = null;
 		try {
-			 conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_docenti", "SA", "");
-			PreparedStatement preSt = conn.prepareStatement(
-					"select * from docenti");
+			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/server_scuola", "SA", "");
+			PreparedStatement preSt = conn.prepareStatement("select * from docente");
 			ResultSet rs = preSt.executeQuery();
-			
+
 			while (rs.next()) {
 				listaDocenti.add(new Docente(rs.getInt(1), rs.getString(2), rs.getString(3)));
 			}
-			
+
 		} catch (SQLException e) {
-			System.out.println("qualcosa è andato storto nella connessione!/addNewBook");
+			System.out.println("qualcosa è andato storto nella connessione al DB!");
 		} finally {
 			if (conn != null) {
 				try {
@@ -39,30 +34,24 @@ public class ElencoDocenti {
 				}
 			}
 		}
-		
-		
-		
-		
+
 	}
 
 	public ArrayList<Docente> getListaDocenti() {
 		return listaDocenti;
 	}
-	
+
 	public Docente getDocenteById(int id) {
 		for (Docente docente : listaDocenti) {
-			if (docente.getId()==id) {
+			if (docente.getId() == id) {
 				return docente;
 			}
 		}
 		return null;
 	}
-	
-	
+
 	public void addDocente(Docente d) {
 		listaDocenti.add(d);
 	}
-	
-	
-	
+
 }

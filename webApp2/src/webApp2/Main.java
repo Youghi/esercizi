@@ -42,7 +42,7 @@ public class Main {
 		
 			try {
 				Class.forName("org.hsqldb.jdbc.JDBCDriver");
-				System.out.println("Connessione al Data Base stabilita");
+				System.out.println("HSQLDB JDBC driver loaded...");
 			} catch (Exception e) {
 				System.err.println("ERROR: failed to load HSQLDB JDBC driver.");
 				e.printStackTrace();
